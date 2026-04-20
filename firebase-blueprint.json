@@ -1,0 +1,66 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "user"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Prompt": {
+      "title": "Prompt",
+      "description": "AI Prompt marketplace item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "prompt": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "category": { "type": "string", "enum": ["Midjourney", "DALL-E", "Stable Diffusion", "Sora", "Other"] },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "price": { "type": "number" },
+        "isFree": { "type": "boolean" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "prompt", "authorId", "category"]
+    },
+    "Purchase": {
+      "title": "Purchase",
+      "description": "Record of a successfully purchased prompt",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "promptId": { "type": "string" },
+        "price": { "type": "number" },
+        "title": { "type": "string" },
+        "purchasedAt": { "type": "string", "format": "date-time" },
+        "transactionId": { "type": "string" }
+      },
+      "required": ["userId", "promptId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/prompts/{promptId}": {
+      "schema": "Prompt",
+      "description": "Marketplace prompts"
+    },
+    "/purchases/{purchaseId}": {
+      "schema": "Purchase",
+      "description": "Purchase records"
+    }
+  }
+}
